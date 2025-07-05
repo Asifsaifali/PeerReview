@@ -6,7 +6,6 @@ const UserProfile = () => {
     const[ user, setUser] = useState(null)
     const navigate = useNavigate()
 
-
     useEffect(()=>{
         const data = localStorage.getItem('githubUser')
         if(data){
@@ -21,7 +20,7 @@ const UserProfile = () => {
           <img
             src={user.avatar_url}
             alt="GitHub Avatar"
-            className="w-20 rounded-full mt-2"
+            className="w-10 rounded-full mt-2"
           />
         </>
       ) : (

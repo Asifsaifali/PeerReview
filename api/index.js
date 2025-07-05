@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 import axios from "axios";
+import connectDB from "./config/database.config.js";
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,14 +19,6 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-app.get("/test", (req, res) => {
-  console.log("✅ Frontend hit /test route");
-  res.json({ message: "Backend is working!" });
-});
-
-
-
 
 
 app.get("/auth/github/callback", async (req, res) => {
@@ -76,6 +69,7 @@ app.get("/auth/github/callback", async (req, res) => {
   }
 });
 
+connectDB()
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });
