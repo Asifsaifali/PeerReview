@@ -16,13 +16,13 @@ export default function Callback() {
       .then((data) => {
         console.log("GitHub User:", data.user);
         localStorage.setItem("githubUser", JSON.stringify(data.user));
-        navigate("/");
+        navigate("/profile", { replace: true });
       })
       .catch((err) => {
         console.error("GitHub auth failed", err);
       });
   }
-}, []);
+}, [navigate]);
 
 
   return (

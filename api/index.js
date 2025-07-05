@@ -8,16 +8,30 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 dotenv.config();
+// console.log(process.env.GITHUB_CLIENT_ID, process.env.GITHUB_CLIENT_SECRET);
+
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "*",
+    origin: process.env.CORS_ORIGIN, // ✅ no trailing slash!
+  credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
+app.get("/test", (req, res) => {
+  console.log("✅ Frontend hit /test route");
+  res.json({ message: "Backend is working!" });
+});
+
+
+
+
+
 app.get("/auth/github/callback", async (req, res) => {
   const code = req.query.code;
+  console.log("Received code:", code);
+  
   if (!code) {
     return res.status(400).json({ error: "Code is required" });
   }
@@ -47,6 +61,8 @@ app.get("/auth/github/callback", async (req, res) => {
         Accept: "application/vnd.github.v3+json",
       },
     });
+    console.log("userResponse", userResponse.data);
+    
     return res.status(200).json({
       user: userResponse.data,
       accessToken: accessToken,
