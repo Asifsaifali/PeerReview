@@ -1,33 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 export default function Callback() {
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
- useEffect(() => {
-  const url = new URL(window.location.href);
-  const code = url.searchParams.get("code");
+  useEffect(() => {
+    // Optional — auto redirect to profile
+    navigate("/profile", { replace: true });
+  }, [navigate]);
 
-  if (code) {
-    fetch(`http://localhost:3000/auth/github/callback?code=${code}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("GitHub User:", data.user);
-        localStorage.setItem("githubUser", JSON.stringify(data.user));
-        navigate("/profile", { replace: true });
-      })
-      .catch((err) => {
-        console.error("GitHub auth failed", err);
-      });
-  }
-}, [navigate]);
-
-
-  return (
-    <div className="p-4">
-      {loading ? "Authenticating with GitHub..." : "Redirecting..."}
-    </div>
-  );
+  return <div className="p-4">🔁 Redirecting to your profile...</div>;
 }
